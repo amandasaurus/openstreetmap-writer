@@ -1,5 +1,5 @@
 [bumpr]
-file = apache_log_parser/_version.py
+file = osmwriter/_version.py
 vcs = git
 tests = tox
 publish = python setup.py register sdist upload
