@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rory/openstreetmap-writer.svg)](https://travis-ci.org/rory/openstreetmap-writer)
+
 Write OpenStreetMap data files.
 
 Currently only XML format is supported.
