@@ -1,15 +1,25 @@
+import sys
 from xml.sax.saxutils import XMLGenerator
 from six import text_type as t
 
 class OSMWriter(object):
-    def __init__(self, filename=None, fp=None):
+    def __init__(self, filename=None, fp=None, compact_formatting=False):
         if filename:
             self.filename = filename
             self.fp = open(self.filename, 'wb')
         elif fp:
             self.fp = fp
 
-        self.xmlfile = XMLGenerator(self.fp, 'utf-8')
+        if sys.version_info < (3, 2):
+            if compact_formatting:
+                # xml.sax.saxutils.XMLGenerator only supports outputting
+                # compact empty tags since 3.2.
+                raise ValueError('compact formatting requires Python 3.2+')
+            else:
+                self.xmlfile = XMLGenerator(self.fp, 'utf-8')
+        else:
+            self.xmlfile = XMLGenerator(self.fp, 'utf-8',
+                                        short_empty_elements=compact_formatting)
 
         self.xmlfile.startDocument()
         # TODO include version
@@ -98,5 +108,3 @@ class OSMWriter(object):
 
         self.xmlfile.characters("\n  ")
         self.xmlfile.endElement("relation")
-
-
